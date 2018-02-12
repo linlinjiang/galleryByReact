@@ -81,7 +81,36 @@ class ImgFigure extends React.Component {
 		);
 	}
 }
+//控制组件
+class ControllerUnit extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+	}
+	handleClick(e) {
 
+		if (this.props.arrange.isCenter) {
+			this.props.inverse();
+		} else {
+			this.props.center();
+		}
+      
+		e.stopPropagation();
+		e.preventDefault();
+	}
+	render() {
+		var controllerUnitClassName = 'controller-unit'
+		if (this.props.arrange.isCenter) {
+			controllerUnitClassName += ' is-center';
+			if (this.props.arrange.isInverse) {
+				controllerUnitClassName += ' is-inverse';
+			}
+		}
+		return (
+			<span className={controllerUnitClassName} onClick={this.handleClick}></span>
+		);
+	}
+}
 
 class GalleryByReactApp extends React.Component {
 	constructor(props) {
@@ -278,6 +307,7 @@ class GalleryByReactApp extends React.Component {
 		     }
 		  
 		 	imgFigures.push(<ImgFigure key={index} data={value} arrange={this.state.imgsArrangeArr[index]} ref = {'imgFigure'+index}  inverse = {this.inverse(index)} center = {this.center(index)} />);
+		 	controllerUnits.push(<ControllerUnit key={index} arrange = {this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)} />);
       });
 		 
 		return (
